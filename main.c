@@ -12,26 +12,47 @@ struct student
 
 int main()
 {
+    system("COLOR F4");
     FILE *f;
     FILE *t;
+    FILE *o;
+    FILE *u;
+    FILE *T;
     int i,n,a,b,d,dd,mm,yy,m,j;
-    char c;
-    printf("\n\n\n\n******************************************************************************************************\n");
+    char c,fl[500],strn[10][150],buffer[150],k;
+    printf("\n\n\n\n*******************************************************************************************************************\n");
     printf("\t\t\t\t\tATTENDANCE SYSTEM\n");
-    printf("******************************************************************************************************\n\n");
-    printf("           *PRESS 1 For Giving Input\n");
-    printf("           *PRESS 2 For Taking Attendance\n");
-    printf("           *PRESS 3 To View Attendance if had taken\n");
-    printf("           *PRESS 4 For Exit\n\n");
+    printf("*******************************************************************************************************************\n\n");
+    printf("\n\t           *PRESS 1 For Giving Input\n");
+    printf("\t           *PRESS 2 For Taking Attendance\n");
+    printf("\t           *PRESS 3 To View Attendance if had taken\n");
+    printf("\t           *PRESS 4 For Exit\n\n");
     printf("   \n\n\t\t    :  ");
     scanf("%d",&m);
 
-    //                        TAKING INPUT
+
+
+
+    //                    1    TAKING INPUT
 
     if(m==1)
     {
-        printf("Enter class strength :\t");
+        //system("cls");
+        printf("\n\nEnter class strength :\t");
         scanf("%d",&n);
+
+        //                      SAVING VALUE OF N
+
+        t=fopen("num.txt","w+");
+        fprintf( t,"%d", n );
+        fclose(t);
+        t=fopen("num.txt","r+");
+        fscanf(t,"%d",&d);
+        fclose(t);
+        //printf("\n%d\n",d);
+        //printf("%d",n);
+
+
         printf("\n");
         for(i=1;i<=n;i++)
         {
@@ -46,59 +67,129 @@ int main()
         {
             fprintf(f,"Name: %s\nRoll no: %d\n",s[i].name, s[i].rollno);
         }
-
-        t=fopen("num.dat","wb+");
-        fwrite(&n,sizeof(int),1,t);
-        //fclose(t);
-        //f=fopen("num.txt","r+");
-        fread(&d,sizeof(int),1,t);
-        fclose(t);
-        printf("%d",d);
-        printf("%d",n);
-
         fclose(f);
+
+
+        u=fopen("make2.txt","w+");
+        for(i=1;i<=n;i++)
+        {
+            fprintf(u,"%d\n",s[i].rollno);
+        }
+        fclose(u);
+
+
+        T=fopen("make3.txt","w+");
+        for(i=1;i<=n;i++)
+        {
+            fprintf(T,"%s\n",s[i].name);
+        }
+        fclose(T);
+
         return main();
     }
 
 
 
-
-    //                            TAKING ATTENDANCE
+    //                      2     TAKING ATTENDANCE
 
     else if(m==2)
     {
-        //t=fopen("num.txt","r+");
-        //fscanf(t,"%d",d);
-        printf("\n\t\t\t\tTaking ATTENDANCE\n\n");
-        printf("DATE(DD/MM/YY)  :\t");
+        system("cls");
+
+        //                  RETAKING d VALUE
+
+        t=fopen("num.txt","r+");
+        fscanf(t,"%d",&d);
+        fclose(t);
+
+        printf("\n\t\t\t\t________Taking ATTENDANCE________\n\n");
+        printf("DATE (DD/MM/YY)  :\t");
         scanf("%d %d %d",&dd,&mm,&yy);
         printf("\n\t\tPress Enter when Ready\n");
-        f=fopen("main.txt","r+");
-        printf("%d",d);
+        getc(k);
+
+        /*f = fopen("make.txt","r+");
+        while(fgets(buffer,150,file_in))
+        {
+            strcpy(strn[i],buffer);
+            printf("Line %d: %s",i,strn[i]);
+            i++;
+        }
+        fclose(f);*/
+
+
+        /*
+        f=fopen("make.txt","r");
+        while( fgets(fl,50,f) != NULL )
+        {
+            printf("%s",fl);
+        }
+        fclose(f);
+        //printf("%d",d);
+        */
+
+        u=fopen("make2.txt","r");
+        for(i=1;i<=d;i++)
+        {
+            fscanf(u,"%d",&s[i].rollno);
+        }
+        fclose(u);
+
+        T=fopen("make3.txt","r");
+        for(i=1;i<=d;i++)
+        {
+            fscanf(T,"%[^\n]s",s[i].name);
+        }
+        fclose(T);
+
+
+
+
+        printf("\nEnter attendance 'A' or 'P' roll n.o wise\n\n");
         for(i=1;i<=d;i++)
         {
             printf("\nRoll no: %d",s[i].rollno);
-            printf("\t\tName : %s",s[i].name);
-            scanf("%c",&s[i].attend);
+            printf("\t\tName : %s   :: \t",s[i].name);
+            scanf("\n%c",&s[i].attend);
             //continue;
         }
-        f=fopen("make1.txt","a");
-        printf("ATTENDANCE ON %d-%d-%d",dd,mm,yy);
-        for(i=0;i<=n;++i)
-        fprintf(f,"Attendance: %c       Roll no:%d      Name:%s\n",s[i].attend,s[i].rollno,s[i].name);
+        o=fopen("make1.txt","w+");
+        fprintf(o,"ATTENDANCE ON %d-%d-%d\n",dd,mm,yy);
+        for(i=1;i<=d;++i)
+        {
+            fprintf(o,"Attendance: %c       Roll no:%d      Name:%s\n",s[i].attend,s[i].rollno,s[i].name);
+        }
+        fclose(f);
 
         getch();
-        fclose(f);
+        return main();
 
     }
 
+    else if(m==3)
+    {
+        system("cls");
+        o=fopen("make1.txt","r+");
+        while( fgets(fl,50,f) != NULL )
+        {
+            printf("%s",fl);
+        }
+        fclose(o);
+        //return main();
+    }
+
     else if(m==4)
-          printf("THANK YOU");
+         {
+             //system("cls");
+             printf("THANK YOU");
+         }
 
     else
          {
-           printf("INVALID SELECTION!!!");
-           return main();
+            //system("cls");
+            printf("INVALID SELECTION!!!");
+            return main();
          }
+    return 0;
 
 }
